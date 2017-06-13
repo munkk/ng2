@@ -30,7 +30,7 @@ const APP_PROVIDERS = [
   DataService
 ];
 
-type StoreType = {
+export type StoreType = {
   state: InternalStateType,
   restoreInputValues: () => void,
   disposeOldHosts: () => void
