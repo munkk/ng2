@@ -7,7 +7,7 @@ import {Guard} from '@grid/core/infrastructure';
 export class PluginComponent extends NgComponent implements OnChanges {
   @Input('model') public gridModel: any = null;
 
-  public context = {$implicit: this};
+  public context: any = {$implicit: this};
   private binder = new ModelBinder(this);
   private commit = noop;
   protected models: string[] = [];

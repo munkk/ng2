@@ -1,4 +1,4 @@
-import {Injectable, ViewContainerRef} from "@angular/core";
+import {Injectable, ViewContainerRef, TemplateRef} from "@angular/core";
 import {TemplateCacheService, TemplateLinkService} from "@grid/template";
 import {AppError} from '@grid/core/infrastructure';
 import {noop} from '@grid/core/services/utility';
