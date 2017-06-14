@@ -1,4 +1,4 @@
-import {Guard} from '@grid/core/infrastructure';
+import {Guard} from 'ng2-qgrid/core/infrastructure';
 import {Injectable} from '@angular/core';
 
 @Injectable()

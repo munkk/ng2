@@ -1,6 +1,6 @@
-import {Guard} from '@grid/core/infrastructure';
 import {Injectable} from '@angular/core';
-import {CommandManager} from "@grid/infrastructure/command";
+import {Guard} from 'ng2-qgrid/core/infrastructure';
+import {CommandManager} from "ng2-qgrid/infrastructure/command";
 
 @Injectable()
 export class RootService {

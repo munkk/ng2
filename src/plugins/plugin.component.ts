@@ -1,8 +1,8 @@
-import {ModelBinder} from '@grid/core/infrastructure';
-import {noop} from '@grid/core/services/utility';
+import {ModelBinder} from 'ng2-qgrid/core/infrastructure';
+import {noop} from 'ng2-qgrid/core/services/utility';
 import {Input, OnChanges, Optional, SimpleChanges} from '@angular/core';
 import {NgComponent, RootService} from '../infrastructure/component';
-import {Guard} from '@grid/core/infrastructure';
+import {Guard} from 'ng2-qgrid/core/infrastructure';
 
 export class PluginComponent extends NgComponent implements OnChanges {
   @Input('model') public gridModel: any = null;

@@ -1,8 +1,8 @@
 import {Directive, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Optional, Output} from "@angular/core";
-import {EventListener} from '@grid/core/infrastructure';
+import {EventListener} from 'ng2-qgrid/core/infrastructure';
 import {DragService} from './drag.service';
-import {GRID_PREFIX} from '@grid/core/definition';
-import {RootService} from "@grid/infrastructure/component";
+import {GRID_PREFIX} from 'ng2-qgrid/core/definition';
+import {RootService} from "ng2-qgrid/infrastructure/component";
 
 @Directive({
   selector: '[q-grid-drop]'

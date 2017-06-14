@@ -2,9 +2,9 @@ import {NgModule} from '@angular/core';
 import {MainModule} from './main';
 import {ThemeService as Theme} from './themes/material/theme.service';
 import {ThemeService, TemplateLinkService, TemplateModule} from './template';
-import {TemplateCacheDirective} from './template/template-cache.directive';
-import {Model} from '@grid/core/infrastructure';
-import {setup} from '@grid/core';
+import {TemplateCacheDirective} from 'ng2-qgrid/template';
+import {Model} from 'ng2-qgrid/core/infrastructure';
+import {setup} from 'ng2-qgrid/core';
 import {GridComponent} from "./main/grid";
 import {ColumnListComponent, ColumnComponent} from "./main/column";
 

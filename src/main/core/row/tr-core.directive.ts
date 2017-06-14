@@ -1,6 +1,6 @@
-import {Directive, ElementRef, Input, OnDestroy, OnInit} from "@angular/core";
-import {ViewCoreService} from "../view/view-core.service";
-import {RootService} from "@grid/infrastructure/component";
+import {Directive, ElementRef, Input, OnDestroy, OnInit} from '@angular/core';
+import {ViewCoreService} from 'ng2-qgrid/main/core/view';
+import {RootService} from 'ng2-qgrid/infrastructure/component';
 
 @Directive({
   selector: '[q-grid-core-tr]'
