@@ -13,9 +13,7 @@ const AssetsPlugin = require('assets-webpack-plugin');
 const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
 const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
 const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlElementsPlugin = require('./html-elements-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const ngcWebpack = require('ngc-webpack');
@@ -59,10 +57,16 @@ module.exports = function (options) {
      * See: http://webpack.github.io/docs/configuration.html#entry
      */
     entry: {
-
-      'polyfills': './demo/polyfills.browser.ts',
-      'main': AOT ? './demo/main.browser.aot.ts' : './demo/main.browser.ts'
-
+      // 'polyfills': './demo/polyfills.browser.ts',
+      // 'main': AOT ? './demo/main.browser.aot.ts' : './demo/main.browser.ts',
+      'polyfills': 'tslib',
+      'index': helpers.root('index.ts')
+      // 'main': './src/main/index.ts',
+      // 'infrastructure': './src/infrastructure/index.ts',
+      // 'common': './src/common/index.ts',
+      // 'plugins': './src/plugins/index.ts',
+      // 'template': './src/template/index.ts',
+      // 'themes': './src/themes/index.ts'
     },
 
     /*
@@ -83,9 +87,9 @@ module.exports = function (options) {
       modules: [helpers.root('node_modules')],
 
       alias: {
-        '@grid/core': helpers.root('core'),
-        '@grid/theme': helpers.root('src/themes/material'),
-        '@grid': helpers.root('src')
+        'ng2-qgrid/core': helpers.root('core'),
+        'ng2-qgrid/theme': helpers.root('src/themes/material'),
+        'ng2-qgrid': helpers.root('src')
       }
     },
 
@@ -228,66 +232,21 @@ module.exports = function (options) {
        * See: https://webpack.github.io/docs/list-of-plugins.html#commonschunkplugin
        * See: https://github.com/webpack/docs/wiki/optimization#multi-page-app
        */
-      new CommonsChunkPlugin({
-        name: 'polyfills',
-        chunks: ['polyfills']
-      }),
-      // This enables tree shaking of the vendor modules
-      new CommonsChunkPlugin({
-        name: 'vendor',
-        chunks: ['main'],
-        minChunks: module => /node_modules/.test(module.resource)
-      }),
-      // Specify the correct order the scripts will be injected in
-      new CommonsChunkPlugin({
-        name: ['polyfills', 'vendor'].reverse()
-      }),
+      // new CommonsChunkPlugin({
+      //   name: 'polyfills',
+      //   chunks: ['polyfills']
+      // }),
+      // // This enables tree shaking of the vendor modules
+      // new CommonsChunkPlugin({
+      //   name: 'vendor',
+      //   chunks: ['main'],
+      //   minChunks: module => /node_modules/.test(module.resource)
+      // }),
+      // // Specify the correct order the scripts will be injected in
+      // new CommonsChunkPlugin({
+      //   name: ['polyfills', 'vendor'].reverse()
+      // }),
 
-      /**
-       * Plugin: ContextReplacementPlugin
-       * Description: Provides context to Angular's use of System.import
-       *
-       * See: https://webpack.github.io/docs/list-of-plugins.html#contextreplacementplugin
-       * See: https://github.com/angular/angular/issues/11580
-       */
-      new ContextReplacementPlugin(
-        // The (\\|\/) piece accounts for path separators in *nix and Windows
-        /angular(\\|\/)core(\\|\/)@angular/,
-        helpers.root('demo'), // location of your src
-        {
-          // your Angular Async Route paths relative to this root directory
-        }
-      ),
-
-      /*
-       * Plugin: CopyWebpackPlugin
-       * Description: Copy files and directories in webpack.
-       *
-       * Copies project static assets.
-       *
-       * See: https://www.npmjs.com/package/copy-webpack-plugin
-       */
-      new CopyWebpackPlugin([
-        //{from: 'demo/assets', to: 'assets'},
-        {from: 'demo/meta'}
-      ]),
-
-
-      /*
-       * Plugin: HtmlWebpackPlugin
-       * Description: Simplifies creation of HTML files to serve your webpack bundles.
-       * This is especially useful for webpack bundles that include a hash in the filename
-       * which changes every compilation.
-       *
-       * See: https://github.com/ampedandwired/html-webpack-plugin
-       */
-      new HtmlWebpackPlugin({
-        template: 'demo/index.html',
-        title: METADATA.title,
-        chunksSortMode: 'dependency',
-        metadata: METADATA,
-        inject: 'head'
-      }),
 
       /*
        * Plugin: ScriptExtHtmlWebpackPlugin
@@ -300,31 +259,7 @@ module.exports = function (options) {
         defaultAttribute: 'defer'
       }),
 
-      /*
-       * Plugin: HtmlElementsPlugin
-       * Description: Generate html tags based on javascript maps.
-       *
-       * If a publicPath is set in the webpack output configuration, it will be automatically added to
-       * href attributes, you can disable that by adding a "=href": false property.
-       * You can also enable it to other attribute by settings "=attName": true.
-       *
-       * The configuration supplied is map between a location (key) and an element definition object (value)
-       * The location (key) is then exported to the template under then htmlElements property in webpack configuration.
-       *
-       * Example:
-       *  Adding this plugin configuration
-       *  new HtmlElementsPlugin({
-       *    headTags: { ... }
-       *  })
-       *
-       *  Means we can use it in the template like this:
-       *  <%= webpackConfig.htmlElements.headTags %>
-       *
-       * Dependencies: HtmlWebpackPlugin
-       */
-      new HtmlElementsPlugin({
-        headTags: require('./head-config.common')
-      }),
+
 
       /**
        * Plugin LoaderOptionsPlugin (experimental)

@@ -14,13 +14,19 @@ const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const NamedModulesPlugin = require('webpack/lib/NamedModulesPlugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlElementsPlugin = require('./html-elements-plugin');
+const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
+const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
+
 
 /**
  * Webpack Constants
  */
 const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 const HOST = process.env.HOST || 'localhost';
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3003;
 const HMR = helpers.hasProcessFlag('hot');
 const METADATA = webpackMerge(commonConfig({env: ENV}).metadata, {
   host: HOST,
@@ -31,6 +37,7 @@ const METADATA = webpackMerge(commonConfig({env: ENV}).metadata, {
 
 
 const DllBundlesPlugin = require('webpack-dll-bundles-plugin').DllBundlesPlugin;
+const AOT = false;
 
 /**
  * Webpack configuration
@@ -39,6 +46,11 @@ const DllBundlesPlugin = require('webpack-dll-bundles-plugin').DllBundlesPlugin;
  */
 module.exports = function (options) {
   return webpackMerge(commonConfig({env: ENV}), {
+    entry: {
+      'polyfills': './demo/polyfills.browser.ts',
+      'main': AOT ? './demo/main.browser.aot.ts' : './demo/main.browser.ts',
+      'index': helpers.root('index.ts')
+    },
 
     /**
      * Developer tool to enhance debugging
@@ -219,10 +231,82 @@ module.exports = function (options) {
         }
       }),
 
+      /**
+       * Plugin: ContextReplacementPlugin
+       * Description: Provides context to Angular's use of System.import
+       *
+       * See: https://webpack.github.io/docs/list-of-plugins.html#contextreplacementplugin
+       * See: https://github.com/angular/angular/issues/11580
+       */
+      new ContextReplacementPlugin(
+        // The (\\|\/) piece accounts for path separators in *nix and Windows
+        /angular(\\|\/)core(\\|\/)@angular/,
+        helpers.root('demo'), // location of your src
+        {
+          // your Angular Async Route paths relative to this root directory
+        }
+      ),
+
+      /*
+       * Plugin: CopyWebpackPlugin
+       * Description: Copy files and directories in webpack.
+       *
+       * Copies project static assets.
+       *
+       * See: https://www.npmjs.com/package/copy-webpack-plugin
+       */
+      new CopyWebpackPlugin([
+        //{from: 'demo/assets', to: 'assets'},
+        {from: 'demo/meta'}
+      ]),
+
+      /*
+       * Plugin: HtmlElementsPlugin
+       * Description: Generate html tags based on javascript maps.
+       *
+       * If a publicPath is set in the webpack output configuration, it will be automatically added to
+       * href attributes, you can disable that by adding a "=href": false property.
+       * You can also enable it to other attribute by settings "=attName": true.
+       *
+       * The configuration supplied is map between a location (key) and an element definition object (value)
+       * The location (key) is then exported to the template under then htmlElements property in webpack configuration.
+       *
+       * Example:
+       *  Adding this plugin configuration
+       *  new HtmlElementsPlugin({
+       *    headTags: { ... }
+       *  })
+       *
+       *  Means we can use it in the template like this:
+       *  <%= webpackConfig.htmlElements.headTags %>
+       *
+       * Dependencies: HtmlWebpackPlugin
+       */
+      new HtmlElementsPlugin({
+        headTags: require('./head-config.common')
+      }),
+
+      /*
+       * Plugin: HtmlWebpackPlugin
+       * Description: Simplifies creation of HTML files to serve your webpack bundles.
+       * This is especially useful for webpack bundles that include a hash in the filename
+       * which changes every compilation.
+       *
+       * See: https://github.com/ampedandwired/html-webpack-plugin
+       */
+      new HtmlWebpackPlugin({
+        template: 'demo/index.html',
+        title: METADATA.title,
+        chunksSortMode: 'dependency',
+        metadata: METADATA,
+        inject: 'head'
+      }),
+
+
     ],
 
     /**
-     * Webpack Development Server configuration
+     * Webpack Development ServerServer configuration
      * Description: The webpack-dev-server is a little node.js Express server.
      * The server emits information about the compilation state to the client,
      * which reacts to those events.
