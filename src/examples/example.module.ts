@@ -11,6 +11,7 @@ import { ExampleActionBarBasicComponent } from './action-bar-basic/example-actio
 import { ExampleActionBarTemplateComponent } from './action-bar-template/example-action-bar-template.component';
 import { ExampleAggregateColumnBasicComponent } from './aggregate-column-basic/example-aggregate-column-basic.component';
 import { ExampleColumnArrayBasicComponent } from './column-array-basic/example-column-array-basic.component';
+import { ExampleClipboardBasicComponent } from './clipboard-basic/example-clipboard-basic.component';
 import { ExampleColumnAutocompletetBasicComponent } from './column-autocomplete-basic/example-column-autocomplete-basic.component';
 import { ExampleColumnBoolBasicComponent } from './column-bool-basic/example-column-bool-basic.component';
 import { ExampleColumnCurrencyBasicComponent } from './column-currency-basic/example-column-currency-basic.component';
@@ -129,6 +130,7 @@ const EXAMPLES: Array<any> = [
 	ExampleActionBarBasicComponent,
 	ExampleActionBarTemplateComponent,
 	ExampleAggregateColumnBasicComponent,
+	ExampleClipboardBasicComponent,
 	ExampleColumnArrayBasicComponent,
 	ExampleColumnAutocompletetBasicComponent,
 	ExampleColumnBoolBasicComponent,

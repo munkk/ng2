@@ -5,6 +5,7 @@ import { SortView } from 'ng2-qgrid/core/sort/sort.view';
 import { PaginationView } from 'ng2-qgrid/core/pagination/pagination.view';
 import { HeadView } from 'ng2-qgrid/core/head/head.view';
 import { BodyView } from 'ng2-qgrid/core/body/body.view';
+import { ClipboardView } from 'ng2-qgrid/core/clipboard/clipboard.view';
 import { FootView } from 'ng2-qgrid/core/foot/foot.view';
 import { LayoutView } from 'ng2-qgrid/core/layout/layout.view';
 import { SelectionView } from 'ng2-qgrid/core/selection/selection.view';
@@ -27,6 +28,7 @@ export class ViewCoreService implements OnDestroy {
 	private dispose: () => void = null;
 
 	body: BodyView = null;
+	clipboard: ClipboardView = null;
 	edit: EditView = null;
 	filter: FilterView = null;
 	foot: FootView = null;

@@ -4,6 +4,7 @@ import { ViewModel } from '../view/view.model';
 import { DataModel } from '../data/data.model';
 import { HeadModel } from '../head/head.model';
 import { BodyModel } from '../body/body.model';
+import { ClipboardModel } from '../clipboard/clipboard.model';
 import { LayoutModel } from '../layout/layout.model';
 import { NavigationModel } from '../navigation/navigation.model';
 import { FocusModel } from '../focus/focus.model';
@@ -102,6 +103,10 @@ export declare class Model {
 	columnListChanged: ModelEvent<ColumnListModel>;
 	columnList(value: ColumnListModel, tag?: ModelTag): Model;
 	columnList(): ColumnListModel;
+
+	clipboardChanged: ModelEvent<ClipboardModel>;
+	clipboard(value: ClipboardModel, tag?: ModelTag): Model;
+	clipboard(): ClipboardModel;
 
 	rowChanged: ModelEvent<RowModel>;
 	row(value: RowModel, tag?: ModelTag): Model;
